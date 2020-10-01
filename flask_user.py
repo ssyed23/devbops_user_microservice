@@ -3,9 +3,14 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 
-@app.route('/signup', methods=['POST'])
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    return "hello world"
+    return render_template("signup.html")
+    name = request.form["Username"]
+   
+
+
+    
 
 
 
