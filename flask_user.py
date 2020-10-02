@@ -22,7 +22,7 @@ def signup():
         lastname = request.form["Lastname"]
         currentcity = request.form["Currentcity"]
         currentcountry = request.form["Currentcountry"]
-        test.put(user, password, email, firstname, lastname, currentcity, currentcountry)
+        test.put( user, currentcity, currentcountry, email, firstname, lastname, password)
         return redirect(url_for("user", usr=user))
 
     
@@ -37,6 +37,23 @@ def user(usr):
     return f"hey {usr} thanks for registering !!"
 
 
+
+@app.route("/login")
+def login():
+    if request.method == "POST":
+        user = request.form["Username"]
+        password = request.form["Password"]
+        test.authincate_user(user, password)
+    else:
+         return render_template("signup.html")
+
+
+    
+
+# @app.route("/after_login")
+# def after_login(usr):
+#     print(usr)
+#     return f"hey {usr} thanks for registering !!"
 
     
  
