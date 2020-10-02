@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
-from testing import users
+from user_functions import users
 
 test = users()
 app = Flask(__name__)
@@ -15,6 +15,7 @@ def home():
 def signup():
     if request.method == "POST":
         user = request.form["Username"]
+        test.put(user)
         return redirect(url_for("user", usr=user))
 
     
@@ -25,16 +26,10 @@ def signup():
 
 @app.route("/<usr>")
 def user(usr):
+    print(usr)
     return f"hey {usr}"
- 
-
-   
-
-
     
-
-
-
+ 
 
 
 if __name__ == "__main__":
