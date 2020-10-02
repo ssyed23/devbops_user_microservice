@@ -12,10 +12,12 @@ class users:
         self.table = self.DB.Table(self.__Tablename__)
 
     def put(self, name, password, email, firstname, lastname, currentcity, currentcountry):
+        all_items = self.table.scan()
+        last_primary_key = len(all_items['Items']) + 1
 
         response = self.table.put_item(
             Item = {
-                self.Primary_Column_Name:3,
+                self.Primary_Column_Name:last_primary_key,
                 self.columns[0]: name,
                 self.columns[1] : password,
                 self.columns[2] : email,
@@ -29,15 +31,18 @@ class users:
         )
 
         print(response["ResponseMetadata"]["HTTPStatusCode"])
-        all_items = self.table.scan()
-        print(len(all_items))
-        print("Asas")
+        
+        
 
     def hash_pw(self, password):
         pass
+ 
 
 
-      
+ 
+
+# t1 = users()
+# t1.put("asas", "asasa", "asasas", "asasas", "asasasasas", "asasasas", "asasasasas")
         
               
         
