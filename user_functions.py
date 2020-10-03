@@ -35,21 +35,7 @@ class users:
         )
 
         print(response["ResponseMetadata"]["HTTPStatusCode"])
-        
-        
-
-    def hash_pw(self, password):
-        convert_into_byte_stream =  password
-        
-        converted = bytes(convert_into_byte_stream, 'utf8')
-        
-
-        password = converted
-        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-        print(hashed)
-        return hashed
-    
-    
+           
 
 
 
@@ -77,20 +63,15 @@ class users:
         if response["Items"] == []:
             # print("email is avaiavible")
             return email
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    def hash_pw(self, password):
+        hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+        """
+        above hased is a byte stream; below we decode back into a striing and save pw as string
+        """
+               
+        return hashed.decode("utf-8")
 
     def de_hash(self, password, hashed):
         if bcrypt.checkpw(password, hashed):
@@ -102,7 +83,18 @@ class users:
         response = self.table.scan(
             FilterExpression=Attr("Username").eq(user)
         )
-        print(response['Items'][0])
+        print(response['Items'][0]["password"])
+
+
+        """
+            bcrpty library uses byte stream for its function;
+            below we are coverting the string into byte stream to check if the hashed paasword on the db 
+            is equal to the encode version of the password passed from the form 
+        """
+        hased = response['Items'][0]["password"].encode("utf-8")
+
+        self.de_hash(password.encode("utf-8"), hased)
+
     
 
       
@@ -115,9 +107,11 @@ class users:
 
 
 
-# t1 = users()
+t1 = users()
 # # t1.put("asas", "test", "asasas", "asasas", "asasasasas", "asasasas", "asasasasas")
-# # t1.hash_pw("test")
-# # t1.authincate_user(user="summi", password="cats123")    
+# t1.hash_pw("test")
+
+
+t1.authincate_user(user="sabina", password="P@ssW0rd123")   
 # t1.check_if_user_exists("summi")
           
