@@ -37,14 +37,15 @@ def signup():
 
 
 
-@app.route("/login")
+@app.route("/login",  methods=['POST', 'GET'])
 def login():
     if request.method == "POST":
         user = request.form["Username"]
         password = request.form["Password"]
         test.authincate_user(user, password)
+        return "you have logged in"
     else:
-         return render_template("signup.html")
+         return render_template("login.html")
 
 
     

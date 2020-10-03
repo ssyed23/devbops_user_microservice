@@ -73,11 +73,14 @@ class users:
                
         return hashed.decode("utf-8")
 
+
     def de_hash(self, password, hashed):
         if bcrypt.checkpw(password, hashed):
             print("it matches")
+            return True
         else:
             print("it didnt match")
+            return False
 
     def authincate_user(self, user, password):
         response = self.table.scan(
@@ -107,11 +110,11 @@ class users:
 
 
 
-t1 = users()
+# t1 = users()
 # # t1.put("asas", "test", "asasas", "asasas", "asasasasas", "asasasas", "asasasasas")
 # t1.hash_pw("test")
 
 
-t1.authincate_user(user="sabina", password="P@ssW0rd123")   
+# t1.authincate_user(user="sabina", password="P@ssW0rd123")   
 # t1.check_if_user_exists("summi")
           
