@@ -22,19 +22,18 @@ def signup():
         lastname = request.form["Lastname"]
         currentcity = request.form["Currentcity"]
         currentcountry = request.form["Currentcountry"]
-        test.put( user, currentcity, currentcountry, email, firstname, lastname, password)
-        return redirect(url_for("user", usr=user))
+
+        if test.verifying_email_and_user_are_available( user, currentcity, currentcountry, email, firstname, lastname, password):
+            
+            return "thanks for registering"
+        else:
+            return "fields in use"
+            
 
     
     else:
         return render_template("signup.html")
 
-
-
-@app.route("/<usr>")
-def user(usr):
-    print(usr)
-    return f"hey {usr} thanks for registering !!"
 
 
 
