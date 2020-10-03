@@ -3,7 +3,7 @@ from boto3.dynamodb.conditions import Attr
 import bcrypt
 
 
-class users:
+class Users:
     def __init__(self):
         self.__Tablename__ = "Users_devbops"
         self.client = boto3.client('dynamodb')
@@ -86,7 +86,7 @@ class users:
         response = self.table.scan(
             FilterExpression=Attr("Username").eq(user)
         )
-        print(response['Items'][0]["password"])
+        # print(response['Items'][0]["password"])
 
 
         """
@@ -97,6 +97,8 @@ class users:
         hased = response['Items'][0]["password"].encode("utf-8")
 
         self.de_hash(password.encode("utf-8"), hased)
+
+        return self.de_hash(password.encode("utf-8"), hased)
 
     
 

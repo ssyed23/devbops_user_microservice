@@ -1,51 +1,52 @@
 from flask import Flask, render_template, request, url_for, redirect
-from user_functions import users
-
-test = users()
+from user_functions import Users
+user = Users()
 app = Flask(__name__)
 
 
 
 
-@app.route("/")
-def home():
-    return redirect(url_for("signup"))
 
-@app.route('/signup', methods=['POST', 'GET'])
+
+@app.route('/register', methods=['POST'])
 def signup():
-    if request.method == "POST":
-        user = request.form["Username"]
-        password = request.form["Password"]
-        email = request.form["Email"]
+   
+    res = request.json
+    username = res["Username"]
+    password = res["Password"]
+    email = res["Email"]
 
-        firstname = request.form["Firstname"]
-        lastname = request.form["Lastname"]
-        currentcity = request.form["Currentcity"]
-        currentcountry = request.form["Currentcountry"]
+    firstname = res["FirstName"]
+    lastname = res["LastName"]
+    currentcity = res["City"]
+    currentcountry = res["Country"]
 
-        if test.verifying_email_and_user_are_available( user, currentcity, currentcountry, email, firstname, lastname, password):
-            
-            return "thanks for registering"
-        else:
-            return "fields in use"
-            
-
-    
+    if user.verifying_email_and_user_are_available( username, currentcity, currentcountry, email, firstname, lastname, password):
+        
+        return {
+        "Result":  True
+    }
     else:
-        return render_template("signup.html")
+        return {
+        "Result": False
+    }
 
 
 
 
-@app.route("/login",  methods=['POST', 'GET'])
+
+@app.route("/login",  methods=['POST'])
 def login():
-    if request.method == "POST":
-        user = request.form["Username"]
-        password = request.form["Password"]
-        test.authincate_user(user, password)
-        return "you have logged in"
-    else:
-         return render_template("login.html")
+    
+    res = request.json
+    username = res["Username"]
+    password = res["Password"]
+    res = user.authincate_user(username, password)
+    # True / False
+    return {
+        "Result": res
+    }
+    
 
 
     
