@@ -12,9 +12,7 @@ class users:
         self.Primary_key = 1
         self.columns = ["Username", "current city", "current country", "email", "first name", "last name", "password"]
         self.table = self.DB.Table(self.__Tablename__)
-        
-    def verify_user(self):
-        pass
+
 
 
     def put(self, user, currentcity, currentcountry, email, firstname, lastname, password):
@@ -24,10 +22,10 @@ class users:
         response = self.table.put_item(
             Item = {
                 self.Primary_Column_Name:last_primary_key,
-                self.columns[0]: self.check_if_user_exists(user),
+                self.columns[0]: user,
                 self.columns[1] : currentcity,
                 self.columns[2] : currentcountry,
-                self.columns[3] : self.check_if_user_exists_email(email),
+                self.columns[3] : email,
                 self.columns[4] : firstname,
                 self.columns[5] : lastname,
                 self.columns[6] : self.hash_pw(password)
@@ -52,8 +50,6 @@ class users:
         return hashed
     
     
-    def alert(self):
-        print("name or email already in use")
 
 
 
@@ -71,7 +67,7 @@ class users:
             FilterExpression=Attr("Username").eq(username)
         )
         if response["Items"] == []:
-            print("name is avaiavible")
+            # print("name is avaiavible")
             return username
     
     def check_if_user_exists_email(self, email):
@@ -79,10 +75,21 @@ class users:
             FilterExpression=Attr("email").eq(email)
         )
         if response["Items"] == []:
-            print("email is avaiavible")
+            # print("email is avaiavible")
             return email
 
         
+
+
+
+
+
+
+
+
+
+
+
 
 
     def de_hash(self, password, hashed):
