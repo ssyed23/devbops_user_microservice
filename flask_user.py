@@ -24,11 +24,13 @@ def signup():
     if user.verifying_email_and_user_are_available( username, currentcity, currentcountry, email, firstname, lastname, password):
         
         return {
-        "Result":  True
+        "Result":  True,
+        "Error": None
     }
     else:
         return {
-        "Result": False
+        "Result": False,
+        "Error": "Username or email is already taken"
     }
 
 
@@ -41,11 +43,9 @@ def login():
     res = request.json
     username = res["Username"]
     password = res["Password"]
-    res = user.authincate_user(username, password)
-    # True / False
-    return {
-        "Result": res
-    }
+    r = user.authincate_user(username, password)
+    # return dict{}
+    return r
     
 
 

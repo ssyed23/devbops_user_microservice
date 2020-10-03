@@ -86,19 +86,59 @@ class Users:
         response = self.table.scan(
             FilterExpression=Attr("Username").eq(user)
         )
-        # print(response['Items'][0]["password"])
+
+        ## check if list is emtpy
+        if(len(response["Items"]) > 0):
+            # we have find the user
+            # perform verification
+            hased = response['Items'][0]["password"].encode("utf-8")
+
+            self.de_hash(password.encode("utf-8"), hased)
+
+            verification = self.de_hash(password.encode("utf-8"), hased)
+
+            if(verification):
+                return {
+                    "Result": True,
+                    "Error": None
+                }
+            else:
+                return {
+                    "Result": False,
+                    "Error": "Password incorrect"
+                }
+
+        else:
+            # that means cant find anythign
+            return {
+                "Result": False,
+                "Error": "Username not found"
+            }
+            
+
+        # print (response["Items"])
 
 
-        """
-            bcrpty library uses byte stream for its function;
-            below we are coverting the string into byte stream to check if the hashed paasword on the db 
-            is equal to the encode version of the password passed from the form 
-        """
-        hased = response['Items'][0]["password"].encode("utf-8")
 
-        self.de_hash(password.encode("utf-8"), hased)
+        # if not response["items"]:
+        #     return False
+        # else:
+        #     print (response["Items"])
 
-        return self.de_hash(password.encode("utf-8"), hased)
+
+        # if response == True:
+        #     hased = response['Items'][0]["password"].encode("utf-8")
+
+        #     self.de_hash(password.encode("utf-8"), hased)
+
+        #     return self.de_hash(password.encode("utf-8"), hased)
+        # else:
+        #     return False
+
+
+        
+
+            
 
     
 
