@@ -5,11 +5,13 @@ import bcrypt
 
 class Users:
     def __init__(self):
+        # connecting to the dynamdo db 
         self.__Tablename__ = "Users_devbops"
         self.client = boto3.client('dynamodb')
         self.DB = boto3.resource('dynamodb')
         self.Primary_Column_Name = "ID"
         self.Primary_key = 1
+        # providing values for the colmuns
         self.columns = ["Username", "current city", "current country", "email", "first name", "last name", "password"]
         self.table = self.DB.Table(self.__Tablename__)
 
@@ -40,6 +42,9 @@ class Users:
 
 
     def verifying_email_and_user_are_available(self, user, currentcity, currentcountry, email, firstname, lastname, password):
+        # this function first verfiys that the username and email are available to use
+        # if one or the other is not available we return false
+        # if available we call our put function that pushes items to db
         if self.check_if_user_exists(user) and self.check_if_user_exists_email(email):
             self.put(user, currentcity, currentcountry, email, firstname, lastname, password)
             return True
@@ -53,7 +58,6 @@ class Users:
             FilterExpression=Attr("Username").eq(username)
         )
         if response["Items"] == []:
-            # print("name is avaiavible")
             return username
     
     def check_if_user_exists_email(self, email):
@@ -61,7 +65,6 @@ class Users:
             FilterExpression=Attr("email").eq(email)
         )
         if response["Items"] == []:
-            # print("email is avaiavible")
             return email
     
     
@@ -76,10 +79,8 @@ class Users:
 
     def de_hash(self, password, hashed):
         if bcrypt.checkpw(password, hashed):
-            print("it matches")
             return True
         else:
-            print("it didnt match")
             return False
 
     def authincate_user(self, user, password):
@@ -114,49 +115,6 @@ class Users:
                 "Result": False,
                 "Error": "Username not found"
             }
-            
-
-        # print (response["Items"])
 
 
 
-        # if not response["items"]:
-        #     return False
-        # else:
-        #     print (response["Items"])
-
-
-        # if response == True:
-        #     hased = response['Items'][0]["password"].encode("utf-8")
-
-        #     self.de_hash(password.encode("utf-8"), hased)
-
-        #     return self.de_hash(password.encode("utf-8"), hased)
-        # else:
-        #     return False
-
-
-        
-
-            
-
-    
-
-      
-
- 
-
-        
-        
- 
-
-
-
-# t1 = users()
-# # t1.put("asas", "test", "asasas", "asasas", "asasasasas", "asasasas", "asasasasas")
-# t1.hash_pw("test")
-
-
-# t1.authincate_user(user="sabina", password="P@ssW0rd123")   
-# t1.check_if_user_exists("summi")
-          
