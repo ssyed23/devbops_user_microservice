@@ -6,7 +6,7 @@ import bcrypt
 class Users:
     def __init__(self):
         # connecting to the dynamdo db 
-        self.__Tablename__ = "Users_devbops"
+        self.__Tablename__ = "User_devbops"
         self.client = boto3.client('dynamodb')
         self.DB = boto3.resource('dynamodb')
         self.Primary_Column_Name = "ID"
