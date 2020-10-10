@@ -92,17 +92,23 @@ class Users:
             if (verification):
                 return {
                     "Result": True,
-                    "Error": None
+                    "Error": None,
+                    "City": response['Items'][0]["current city"],
+                    "Country": response['Items'][0]["current country"]
                 }
             else:
                 return {
                     "Result": False,
-                    "Error": "Password incorrect"
+                    "Error": "Password incorrect",
+                    "City": None,
+                    "Country": None
                 }
 
         else:
             # that means cant find anythign
             return {
                 "Result": False,
-                "Error": "Username not found"
+                "Error": "Username not found",
+                "City": None,
+                "Country": None
             }
