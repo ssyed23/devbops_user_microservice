@@ -175,7 +175,7 @@ class Users:
         else:
             return{
                 "Result": False,
-                "Error": "USER info was ot updated"
+                "Error": "USER info was not updated"
             }
 
 
