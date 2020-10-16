@@ -129,10 +129,20 @@ class Users:
                 "Country": None
             }
 
+    def delete_user(self, user):
+        # checking if user exists
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+        print(response)
+        print(len(response["Items"]))
+
+
 
 test = Users()
 # test.verifying_email_and_user_are_available(user="abdul", currentcity="NY", currentcountry="USA", email="dev", firstname="abdul", lastname="syed",
 #                                                password="password")
 # test.authincate_user(user="abdul", password="password")
 # test.authincate_user(user="abdul", password="password123")
-test.authincate_user(user="abdulsx", password="password123")
+# test.authincate_user(user="abdulsx", password="password123")
+test.delete_user("abdulty")
