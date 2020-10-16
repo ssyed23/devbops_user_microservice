@@ -136,6 +136,22 @@ class Users:
         )
         print(response)
         print(len(response["Items"]))
+        
+        if len(response["Items"]) > 0:
+            res = self.table.delete_item(
+                Key={
+                    self.Primary_Column_Name:user
+                }
+            )
+            return{
+                 "Result": True,
+                 "Error": None,
+                 "description": "user was deleted"
+
+            }
+        else:
+            print("user cannot be deleted")
+
 
 
 
