@@ -134,8 +134,7 @@ class Users:
         response = self.table.scan(
             FilterExpression=Attr("username").eq(user)
         )
-        print(response)
-        print(len(response["Items"]))
+       
         
         if len(response["Items"]) > 0:
             res = self.table.delete_item(
@@ -151,6 +150,10 @@ class Users:
             }
         else:
             print("user cannot be deleted")
+            return{
+                 "Result": False,
+                 "Error": "user doesnt not exists in data base"
+                }
 
 
 
