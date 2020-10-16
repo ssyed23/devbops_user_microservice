@@ -177,22 +177,20 @@ class Users:
             print(currentcountry)
             print(lastname)
             print(firstname)
-            
+            response = self.table.put_item(
+                Item={
+                    self.Primary_Column_Name: user,
+                    self.Primary_Column_Name: user,
+                    self.columns[0]: currentcity,
+                    self.columns[1]: currentcountry,
+                    self.columns[2]: email,
+                    self.columns[3]: firstname,
+                    self.columns[4]: lastname,
+                    self.columns[5]: password
 
 
-
-
-
-
-
-
-        # response = self.table.put_item(
-        #     Item={
-        #         self.Primary_Column_Name: user,
-        #         self.columns[5]: self.hash_pw(password)
-
-        #     }
-        # )
+                    }
+                 )
 
     
 
