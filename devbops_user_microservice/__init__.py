@@ -48,10 +48,16 @@ def delete():
     deleted = user.delete_user(username)
     return deleted
 
-# @app.route("/after_login")
-# def after_login(usr):
-#     print(usr)
-#     return f"hey {usr} thanks for registering !!"
+
+
+@app.route("/updated-pw", methods=['POST'])
+def updated_pw():
+    res = request.json
+    username = res["Username"]
+    password = res["Password"]
+    updated = user.update_user_pw(username, password)
+    return updated
+
 
 
 if __name__ == "__main__":
