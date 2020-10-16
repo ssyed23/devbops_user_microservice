@@ -172,11 +172,7 @@ class Users:
             currentcountry = response["Items"][0]["current country"]
             firstname = response["Items"][0]["first name"]
             lastname = response["Items"][0]["last name"]
-            print(email)
-            print(currentcity)
-            print(currentcountry)
-            print(lastname)
-            print(firstname)
+          
             response = self.table.put_item(
                 Item={
                     self.Primary_Column_Name: user,
@@ -191,6 +187,18 @@ class Users:
 
                     }
                  )
+            return{
+                "Result": True,
+                "Error": None,
+                "Description": "USER password updated"
+            }
+        else:
+            print("nope")
+            return{
+                "Result": False,
+                "Error": "USER password was not updated. No such user"
+            }
+
 
     
 
@@ -201,9 +209,9 @@ test = Users()
 # test.verifying_email_and_user_are_available(user="abduls", currentcity="NY", currentcountry="USA", email="desv", firstname="abdul", lastname="syed",
                                             #    password="password")
 # test.authincate_user(user="abdul", password="password")
-# test.authincate_user(user="abdul", password="password123")
+# test.authincate_user(user="abduls", password="123")
 # test.authincate_user(user="abdulsx", password="password123")
 # test.delete_user("abdul")
 
 
-test.update_user_pw(user='abduls', password="123")
+test.update_user_pw(user='abdulssss', password="123")
