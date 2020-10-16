@@ -1,6 +1,6 @@
 from flask import Flask, request
-from devbops_user_microservice.user_functions import Users
-
+# from devbops_user_microservice.user_functions import Users
+from user_functions import Users
 user = Users()
 app = Flask(__name__)
 
@@ -17,8 +17,8 @@ def signup():
     currentcity = res["City"]
     currentcountry = res["Country"]
 
-    if user.verifying_email_and_user_are_available(username, currentcity, currentcountry, email, firstname, lastname,
-                                                   password):
+    if user.verifying_email_and_user_are_available(user=username, currentcity=currentcity, currentcountry=currentcountry, email=email, firstname=firstname, lastname=lastname,
+                                                   password=password):
 
         return {
             "Result": True,
@@ -36,7 +36,7 @@ def login():
     res = request.json
     username = res["Username"]
     password = res["Password"]
-    r = user.authincate_user(username, password)
+    r = user.authincate_user(user=username, password=password)
     # return dict{}
     return r
 
@@ -45,18 +45,30 @@ def login():
 def delete():
     res = request.json
     username = res["Username"]
-    deleted = user.delete_user(username)
+    deleted = user.delete_user(user=username)
     return deleted
 
 
 
-@app.route("/updated-pw", methods=['POST'])
+@app.route("/update-pw", methods=['POST'])
 def updated_pw():
     res = request.json
     username = res["Username"]
     password = res["Password"]
-    updated = user.update_user_pw(username, password)
+    updated = user.update_user_pw(user=username,password=password)
     return updated
+
+
+@app.route("/update-user-info", methods=["POST"])
+def update_info():
+    res = request.json
+    username = res["Username"]
+    firstname = res["FirstName"]
+    lastname = res["LastName"]
+    currentcity = res["City"]
+    currentcountry = res["Country"]
+    updated_user = user.update_user_info(user=username, currentcity=currentcity, currentcountry=currentcountry, firstname=firstname, lastname=lastname)
+    return updated_user
 
 
 
