@@ -156,12 +156,45 @@ class Users:
                 }
 
 
+    def update_user_info(self, user):
+        pass
+
+    def update_user_pw(self, user, password):
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+
+        if len(response["Items"]) > 0:
+            # if the response contains a user we bgan to presver dat such as the user city, country, name, etc,
+            print(response)
+
+
+
+
+
+
+
+
+        # response = self.table.put_item(
+        #     Item={
+        #         self.Primary_Column_Name: user,
+        #         self.columns[5]: self.hash_pw(password)
+
+        #     }
+        # )
+
+    
+
+
 
 
 test = Users()
-# test.verifying_email_and_user_are_available(user="abdul", currentcity="NY", currentcountry="USA", email="dev", firstname="abdul", lastname="syed",
-#                                                password="password")
+# test.verifying_email_and_user_are_available(user="abduls", currentcity="NY", currentcountry="USA", email="desv", firstname="abdul", lastname="syed",
+                                            #    password="password")
 # test.authincate_user(user="abdul", password="password")
 # test.authincate_user(user="abdul", password="password123")
 # test.authincate_user(user="abdulsx", password="password123")
-test.delete_user("abdulty")
+# test.delete_user("abdul")
+
+
+test.update_user_pw(user='abduls', password="123")
