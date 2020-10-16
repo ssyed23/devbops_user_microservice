@@ -166,7 +166,18 @@ class Users:
 
         if len(response["Items"]) > 0:
             # if the response contains a user we bgan to presver dat such as the user city, country, name, etc,
-            print(response)
+            print(response["Items"][0])
+            email = response["Items"][0]['email']
+            currentcity = response["Items"][0]["current city"]
+            currentcountry = response["Items"][0]["current country"]
+            firstname = response["Items"][0]["first name"]
+            lastname = response["Items"][0]["last name"]
+            print(email)
+            print(currentcity)
+            print(currentcountry)
+            print(lastname)
+            print(firstname)
+            
 
 
 
