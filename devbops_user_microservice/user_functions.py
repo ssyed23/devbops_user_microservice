@@ -67,13 +67,29 @@ class Users:
 
     def de_hash(self, password, hashed):
         if bcrypt.checkpw(password, hashed):
+            
             return True
         else:
+            
             return False
+
+
+    def verify_that_user_exists(self, user, password):
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+        print (response)
+
+
+
+
+
+
+
 
     def authincate_user(self, user, password):
         response = self.table.scan(
-            FilterExpression=Attr("Username").eq(user)
+            FilterExpression=Attr("username").eq(user)
         )
 
         ## check if list is emtpy
@@ -87,6 +103,7 @@ class Users:
             verification = self.de_hash(password.encode("utf-8"), hased)
 
             if (verification):
+                print("it matches")
                 return {
                     "Result": True,
                     "Error": None,
@@ -94,6 +111,7 @@ class Users:
                     "Country": response['Items'][0]["current country"]
                 }
             else:
+                print("password inncorrect")
                 return {
                     "Result": False,
                     "Error": "Password incorrect",
@@ -103,6 +121,7 @@ class Users:
 
         else:
             # that means cant find anythign
+            print("no such user")
             return {
                 "Result": False,
                 "Error": "Username not found",
@@ -112,5 +131,6 @@ class Users:
 
 
 test = Users()
-test.verifying_email_and_user_are_available(user="abdul", currentcity="NY", currentcountry="USA", email="dev", firstname="abdul", lastname="syed",
-                                               password="password")
+# test.verifying_email_and_user_are_available(user="abdul", currentcity="NY", currentcountry="USA", email="dev", firstname="abdul", lastname="syed",
+#                                                password="password")
+test.authincate_user(user="abdul", password="password")
