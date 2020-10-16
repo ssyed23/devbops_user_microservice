@@ -6,7 +6,7 @@ import bcrypt
 class Users:
     def __init__(self):
         # connecting to the dynamdo db 
-        self.__Tablename__ = "users_devbops"
+        self.__Tablename__ = "user_devbops"
         self.client = boto3.client('dynamodb')
         self.DB = boto3.resource('dynamodb')
         self.Primary_Column_Name = "username"
@@ -19,7 +19,7 @@ class Users:
 
         response = self.table.put_item(
             Item={
-                self.Primary_Column_Name: last_primary_key,
+                self.Primary_Column_Name: user,
                 self.columns[0]: currentcity,
                 self.columns[1]: currentcountry,
                 self.columns[2]: email,
@@ -112,3 +112,5 @@ class Users:
 
 
 test = Users()
+test.verifying_email_and_user_are_available(user="abdul", currentcity="NY", currentcountry="USA", email="dev", firstname="abdul", lastname="syed",
+                                               password="password")
