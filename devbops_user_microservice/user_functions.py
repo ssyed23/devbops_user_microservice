@@ -10,25 +10,22 @@ class Users:
         self.client = boto3.client('dynamodb')
         self.DB = boto3.resource('dynamodb')
         self.Primary_Column_Name = "username"
-        self.Primary_key = 1
+        # self.Primary_key = 1
         # providing values for the colmuns
-        self.columns = ["Username", "current city", "current country", "email", "first name", "last name", "password"]
+        self.columns = ["current city", "current country", "email", "first name", "last name", "password"]
         self.table = self.DB.Table(self.__Tablename__)
 
     def put(self, user, currentcity, currentcountry, email, firstname, lastname, password):
-        all_items = self.table.scan()
-        last_primary_key = len(all_items['Items']) + 1
 
         response = self.table.put_item(
             Item={
                 self.Primary_Column_Name: last_primary_key,
-                self.columns[0]: user,
-                self.columns[1]: currentcity,
-                self.columns[2]: currentcountry,
-                self.columns[3]: email,
-                self.columns[4]: firstname,
-                self.columns[5]: lastname,
-                self.columns[6]: self.hash_pw(password)
+                self.columns[0]: currentcity,
+                self.columns[1]: currentcountry,
+                self.columns[2]: email,
+                self.columns[3]: firstname,
+                self.columns[4]: lastname,
+                self.columns[5]: self.hash_pw(password)
 
             }
         )
@@ -112,3 +109,6 @@ class Users:
                 "City": None,
                 "Country": None
             }
+
+
+test = Users()
