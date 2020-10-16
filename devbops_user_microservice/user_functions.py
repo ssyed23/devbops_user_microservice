@@ -6,34 +6,31 @@ import bcrypt
 class Users:
     def __init__(self):
         # connecting to the dynamdo db 
-        self.__Tablename__ = "Users_devbops"
+        self.__Tablename__ = "user_devbops"
         self.client = boto3.client('dynamodb')
         self.DB = boto3.resource('dynamodb')
-        self.Primary_Column_Name = "ID"
-        self.Primary_key = 1
+        self.Primary_Column_Name = "username"
+        # self.Primary_key = 1
         # providing values for the colmuns
-        self.columns = ["Username", "current city", "current country", "email", "first name", "last name", "password"]
+        self.columns = ["current city", "current country", "email", "first name", "last name", "password"]
         self.table = self.DB.Table(self.__Tablename__)
 
     def put(self, user, currentcity, currentcountry, email, firstname, lastname, password):
-        all_items = self.table.scan()
-        last_primary_key = len(all_items['Items']) + 1
 
         response = self.table.put_item(
             Item={
-                self.Primary_Column_Name: last_primary_key,
-                self.columns[0]: user,
-                self.columns[1]: currentcity,
-                self.columns[2]: currentcountry,
-                self.columns[3]: email,
-                self.columns[4]: firstname,
-                self.columns[5]: lastname,
-                self.columns[6]: self.hash_pw(password)
+                self.Primary_Column_Name: user,
+                self.columns[0]: currentcity,
+                self.columns[1]: currentcountry,
+                self.columns[2]: email,
+                self.columns[3]: firstname,
+                self.columns[4]: lastname,
+                self.columns[5]: self.hash_pw(password)
 
             }
         )
 
-        print(response["ResponseMetadata"]["HTTPStatusCode"])
+        # print(response["ResponseMetadata"]["HTTPStatusCode"])
 
     def verifying_email_and_user_are_available(self, user, currentcity, currentcountry, email, firstname, lastname,
                                                password):
@@ -70,13 +67,18 @@ class Users:
 
     def de_hash(self, password, hashed):
         if bcrypt.checkpw(password, hashed):
+            
             return True
         else:
+            
             return False
+
+
+   
 
     def authincate_user(self, user, password):
         response = self.table.scan(
-            FilterExpression=Attr("Username").eq(user)
+            FilterExpression=Attr("username").eq(user)
         )
 
         ## check if list is emtpy
@@ -90,6 +92,7 @@ class Users:
             verification = self.de_hash(password.encode("utf-8"), hased)
 
             if (verification):
+                # print("it matches")
                 return {
                     "Result": True,
                     "Error": None,
@@ -97,6 +100,7 @@ class Users:
                     "Country": response['Items'][0]["current country"]
                 }
             else:
+                # print("password inncorrect")
                 return {
                     "Result": False,
                     "Error": "Password incorrect",
@@ -106,9 +110,111 @@ class Users:
 
         else:
             # that means cant find anythign
+            # print("no such user")
             return {
                 "Result": False,
                 "Error": "Username not found",
                 "City": None,
                 "Country": None
+            }
+
+    def delete_user(self, user):
+        # checking if user exists
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+       
+        
+        if len(response["Items"]) > 0:
+            res = self.table.delete_item(
+                Key={
+                    self.Primary_Column_Name:user
+                }
+            )
+            return{
+                 "Result": True,
+                 "Error": None,
+                 "description": "user was deleted"
+
+            }
+        else:
+            # print("user cannot be deleted")
+            return{
+                 "Result": False,
+                 "Error": "user doesnt not exists in data base"
+                }
+
+
+    def update_user_info(self, user, currentcity, currentcountry, firstname,  lastname):
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+        
+        if len(response["Items"]) > 0:
+            email = response["Items"][0]['email']
+            password = response["Items"][0]['password']
+            # print(password)
+            response = self.table.put_item(
+                Item={
+                    self.Primary_Column_Name: user,
+                    self.columns[0]: currentcity,
+                    self.columns[1]: currentcountry,
+                    self.columns[2]: email,
+                    self.columns[3]: firstname,
+                    self.columns[4]: lastname,
+                    self.columns[5]: password
+
+
+                    }
+                 )
+            return{
+                "Result": True,
+                "Error": None,
+                "Description": "USER info was updated"
+            }
+        else:
+            return{
+                "Result": False,
+                "Error": "USER info was not updated"
+            }
+
+
+
+    def update_user_pw(self, user, password):
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+
+        if len(response["Items"]) > 0:
+            # if the response contains a user we bgan to presver dat such as the user city, country, name, etc,
+            
+            email = response["Items"][0]['email']
+            currentcity = response["Items"][0]["current city"]
+            currentcountry = response["Items"][0]["current country"]
+            firstname = response["Items"][0]["first name"]
+            lastname = response["Items"][0]["last name"]
+          
+            response = self.table.put_item(
+                Item={
+                    self.Primary_Column_Name: user,
+                    self.columns[0]: currentcity,
+                    self.columns[1]: currentcountry,
+                    self.columns[2]: email,
+                    self.columns[3]: firstname,
+                    self.columns[4]: lastname,
+                    self.columns[5]: self.hash_pw(password)
+
+
+                    }
+                 )
+            return{
+                "Result": True,
+                "Error": None,
+                "Description": "USER password updated"
+            }
+        else:
+            # print("nope")
+            return{
+                "Result": False,
+                "Error": "USER password was not updated. No such user"
             }
