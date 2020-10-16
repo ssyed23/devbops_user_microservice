@@ -186,7 +186,7 @@ class Users:
                     self.columns[2]: email,
                     self.columns[3]: firstname,
                     self.columns[4]: lastname,
-                    self.columns[5]: password
+                    self.columns[5]: self.hash_pw(password)
 
 
                     }
