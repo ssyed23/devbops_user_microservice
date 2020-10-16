@@ -133,4 +133,5 @@ class Users:
 test = Users()
 # test.verifying_email_and_user_are_available(user="abdul", currentcity="NY", currentcountry="USA", email="dev", firstname="abdul", lastname="syed",
 #                                                password="password")
-test.authincate_user(user="abdul", password="password")
+# test.authincate_user(user="abdul", password="password")
+test.authincate_user(user="abdul", password="password123")
