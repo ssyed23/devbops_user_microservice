@@ -41,7 +41,7 @@ def login():
     return r
 
 
-@app.route("/delete", methods=['POST']):
+@app.route("/delete", methods=['POST'])
 def delete():
     res = request.json
     username = res["Username"]
