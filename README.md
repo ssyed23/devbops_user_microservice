@@ -6,7 +6,7 @@
 - Request method type: POST      
  ```
  {
-     "Action" : "login",
+     "Action" : "loginn",
      "Username": "{username}",
      "Password": "{password}",
  }
