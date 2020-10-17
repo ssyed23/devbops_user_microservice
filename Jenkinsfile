@@ -12,7 +12,7 @@ pipeline {
         stage('test') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'python3 Test.py'
+                    sh 'python3 test.py'
                 }
             }
     
