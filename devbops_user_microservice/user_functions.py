@@ -2,6 +2,7 @@ import boto3
 from boto3.dynamodb.conditions import Attr
 import bcrypt
 
+kms = boto3.client('kms', region_name='us-east-1')
 
 class Users:
     def __init__(self):
