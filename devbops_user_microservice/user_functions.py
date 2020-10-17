@@ -1,15 +1,19 @@
 import boto3
 from boto3.dynamodb.conditions import Attr
 import bcrypt
+import os
 
-kms = boto3.client('kms', region_name='us-east-1')
+
+
+# dynamodb = boto3.client('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
+# kms = boto3.client('kms', region_name='us-east-1')
 
 class Users:
     def __init__(self):
         # connecting to the dynamdo db 
         self.__Tablename__ = "user_devbops"
-        self.client = boto3.client('dynamodb')
-        self.DB = boto3.resource('dynamodb')
+        self.client = boto3.client('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
+        self.DB = boto3.resource('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
         self.Primary_Column_Name = "username"
         # self.Primary_key = 1
         # providing values for the colmuns
