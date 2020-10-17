@@ -4,7 +4,7 @@ pipeline {
         stage('build') {
             steps {
                    withEnv(["HOME=${env.WORKSPACE}"]) {
-                        sh "pip install flask"
+                        sh "pip install flask --user"
                         sh 'pwd && echo $PATH'
                     }
                 }
@@ -12,7 +12,6 @@ pipeline {
         stage('test') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    
                     sh 'python3 test.py'
                 }
             }
