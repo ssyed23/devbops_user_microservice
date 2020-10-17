@@ -1,9 +1,6 @@
 import os
 import unittest
-import user_functions 
-
-
-
+from devbops_user_microservice import app
 
 class BasicTestCase(unittest.TestCase):
 
