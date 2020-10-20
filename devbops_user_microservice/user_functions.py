@@ -11,13 +11,19 @@ import os
 class Users:
     def __init__(self):
         # connecting to the dynamdo db 
+<<<<<<< HEAD
         self.__Tablename__ = "user_devbops"
         self.client = boto3.client('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
         self.DB = boto3.resource('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
+=======
+        self.__Tablename__ = "DevBops_user"
+        self.client = boto3.client('dynamodb')
+        self.DB = boto3.resource('dynamodb')
+>>>>>>> 4d27a1fb8643494974c08fda7af7b1e645108085
         self.Primary_Column_Name = "username"
         # self.Primary_key = 1
         # providing values for the colmuns
-        self.columns = ["current city", "current country", "email", "first name", "last name", "password"]
+        self.columns = ["currentcity", "currentcountry", "email", "firstname", "lastname", "password"]
         self.table = self.DB.Table(self.__Tablename__)
 
     def put(self, user, currentcity, currentcountry, email, firstname, lastname, password):
@@ -101,8 +107,12 @@ class Users:
                 return {
                     "Result": True,
                     "Error": None,
-                    "City": response['Items'][0]["current city"],
-                    "Country": response['Items'][0]["current country"]
+                    "City": response['Items'][0]["currentcity"],
+                    "Country": response['Items'][0]["currentcountry"],
+                    "FirstName": response['Items'][0]["firstname"],
+                    "LastName": response['Items'][0]["lastname"],
+                    "Email": response['Items'][0]["email"],
+                    "Username": response['Items'][0]["username"]
                 }
             else:
                 # print("password inncorrect")
@@ -150,7 +160,76 @@ class Users:
                 }
 
 
-    def update_user_info(self, user, currentcity, currentcountry, firstname,  lastname):
+    def update_user(self, user, currentcity, currentcountry, firstname, lastname, email, password):
+
+        response = self.table.scan(
+            FilterExpression=Attr("username").eq(user)
+        )
+
+        if password is None:
+            password = response['Items'][0]["password"]
+        else:
+            password = self.hash_pw(password)
+
+        if len(response["Items"]) > 0:
+            res = self.table.update_item(
+                Key={
+                    'username': user
+                },
+                UpdateExpression="set currentcity=:d, currentcountry=:t, firstname=:l, lastname=:c, email=:s, password=:z",
+                ExpressionAttributeValues={
+                    # ':n': New_BlogName,
+                    ':d': currentcity,
+                    ':t': currentcountry,
+                    ':l': firstname,
+                    ':c': lastname,
+                    ':s': email,
+                    ':z': password
+                }
+
+            )
+
+            # response = self.table.put_item(
+            #     Item={
+            #         self.Primary_Column_Name: user,
+            #         self.columns[0]: currentcity,
+            #         self.columns[1]: currentcountry,
+            #         self.columns[2]: email,
+            #         self.columns[3]: firstname,
+            #         self.columns[4]: lastname,
+            #         self.columns[5]: password
+            #
+            #
+            #         }
+            #      )
+            #
+            # return{
+            #     "Result": True,
+            #     "Error": None,
+            #     "Description": "User info was updated"
+            # }
+
+            if res["ResponseMetadata"]["HTTPStatusCode"] == 200:
+                return {
+                    "Result": True,
+                    "Error": None,
+                    "Description": "User was updated successfully",
+                }
+            else:
+                return {
+                    "Result": False,
+                    "Error": "Database error",
+                    "Description": "Database error",
+                }
+
+        else:
+            return {
+                "Result": False,
+                "Error": "DB error",
+                "Description": "User info was not updated"
+            }
+
+    def update_user_info(self, user, currentcity, currentcountry, firstname, lastname):
         response = self.table.scan(
             FilterExpression=Attr("username").eq(user)
         )
@@ -159,28 +238,61 @@ class Users:
             email = response["Items"][0]['email']
             password = response["Items"][0]['password']
             # print(password)
-            response = self.table.put_item(
-                Item={
-                    self.Primary_Column_Name: user,
-                    self.columns[0]: currentcity,
-                    self.columns[1]: currentcountry,
-                    self.columns[2]: email,
-                    self.columns[3]: firstname,
-                    self.columns[4]: lastname,
-                    self.columns[5]: password
+
+            response = self.table.update_item(
+                Key={
+                    'username': user
+                },
+                UpdateExpression="set currentcity=:d, currentcountry=:t, firstname=:l, lastname=:c",
+                ExpressionAttributeValues={
+                    # ':n': New_BlogName,
+                    ':d': currentcity,
+                    ':t': currentcountry,
+                    ':l': firstname,
+                    ':c': lastname
+                }
+
+            )
 
 
-                    }
-                 )
-            return{
-                "Result": True,
-                "Error": None,
-                "Description": "USER info was updated"
-            }
+            # response = self.table.put_item(
+            #     Item={
+            #         self.Primary_Column_Name: user,
+            #         self.columns[0]: currentcity,
+            #         self.columns[1]: currentcountry,
+            #         self.columns[2]: email,
+            #         self.columns[3]: firstname,
+            #         self.columns[4]: lastname,
+            #         self.columns[5]: password
+            #
+            #
+            #         }
+            #      )
+            #
+            # return{
+            #     "Result": True,
+            #     "Error": None,
+            #     "Description": "User info was updated"
+            # }
+
+            if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
+                return {
+                    "Result": True,
+                    "Error": None,
+                    "Description": "User was updated successfully",
+                }
+            else:
+                return {
+                    "Result": False,
+                    "Error": "Database error",
+                    "Description": "Database error",
+                }
+
         else:
             return{
                 "Result": False,
-                "Error": "USER info was not updated"
+                "Error": "DB error",
+                "Description": "User info was not updated"
             }
 
 
@@ -194,10 +306,10 @@ class Users:
             # if the response contains a user we bgan to presver dat such as the user city, country, name, etc,
             
             email = response["Items"][0]['email']
-            currentcity = response["Items"][0]["current city"]
-            currentcountry = response["Items"][0]["current country"]
-            firstname = response["Items"][0]["first name"]
-            lastname = response["Items"][0]["last name"]
+            currentcity = response["Items"][0]["currentcity"]
+            currentcountry = response["Items"][0]["currentcountry"]
+            firstname = response["Items"][0]["firstname"]
+            lastname = response["Items"][0]["lastname"]
           
             response = self.table.put_item(
                 Item={
@@ -215,11 +327,16 @@ class Users:
             return{
                 "Result": True,
                 "Error": None,
-                "Description": "USER password updated"
+                "Description": "User password updated"
             }
         else:
             # print("nope")
             return{
                 "Result": False,
-                "Error": "USER password was not updated. No such user"
+                "Error": "DB Error",
+                "Description": "USER password was not updated. No such user"
             }
+
+if __name__ == "__main__":
+    # u = Users()
+    # u.update_user_info(user="hrgutou", currentcity=None, currentcountry="asdf", firstname=None,  lastname=None)
