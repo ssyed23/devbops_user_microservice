@@ -1,6 +1,6 @@
 from flask import Flask, request
-# from devbops_user_microservice.user_functions import Users
-from user_functions import Users
+from devbops_user_microservice.user_functions import Users
+#from user_functions import Users
 user = Users()
 app = Flask(__name__)
 
@@ -50,13 +50,13 @@ def delete():
 
 
 
-@app.route("/update-pw", methods=['POST'])
-def updated_pw():
-    res = request.json
-    username = res["Username"]
-    password = res["Password"]
-    updated = user.update_user_pw(user=username,password=password)
-    return updated
+# @app.route("/update-pw", methods=['POST'])
+# def updated_pw():
+#     res = request.json
+#     username = res["Username"]
+#     password = res["Password"]
+#     updated = user.update_user_pw(user=username,password=password)
+#     return updated
 
 
 @app.route("/update-user-info", methods=["POST"])
@@ -67,7 +67,9 @@ def update_info():
     lastname = res["LastName"]
     currentcity = res["City"]
     currentcountry = res["Country"]
-    updated_user = user.update_user_info(user=username, currentcity=currentcity, currentcountry=currentcountry, firstname=firstname, lastname=lastname)
+    password = res['Password']
+    email = res['Email']
+    updated_user = user.update_user(user=username, currentcity=currentcity, currentcountry=currentcountry, firstname=firstname, lastname=lastname, password=password, email=email)
     return updated_user
 
 
