@@ -5,8 +5,8 @@ from devbops_user_microservice import app
 class BasicTestCase(unittest.TestCase):
 
         
-#     def api_test(self):
-#         pass
+    def api_test(self):
+        pass
 
 
 
