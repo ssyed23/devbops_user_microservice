@@ -11,15 +11,15 @@ import os
 class Users:
     def __init__(self):
         # connecting to the dynamdo db 
-<<<<<<< HEAD
+
         self.__Tablename__ = "user_devbops"
         self.client = boto3.client('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
         self.DB = boto3.resource('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
-=======
+
         self.__Tablename__ = "DevBops_user"
         self.client = boto3.client('dynamodb')
         self.DB = boto3.resource('dynamodb')
->>>>>>> 4d27a1fb8643494974c08fda7af7b1e645108085
+
         self.Primary_Column_Name = "username"
         # self.Primary_key = 1
         # providing values for the colmuns
