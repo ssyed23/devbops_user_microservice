@@ -4,7 +4,7 @@ pipeline {
         AWS_DEFAULT_REGION = 'us-east-1'
      }
      stages {
-         stage('Build') {
+         stage('build') {
              steps {
                     withEnv(["HOME=${env.WORKSPACE}"]) {
                          sh 'pip install flask --user'
@@ -15,19 +15,19 @@ pipeline {
                      }
                  }
          }
-         stage('Test') {
+         stage('test') {
              steps {
                  withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'python3 Test.py'
+                    sh 'python3 test.py'
                  }
              }
-         
-         stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-    
-    }
+         }
+         stage('deploy'){
+             steps{
+                 echo 'Deploying....'
+
+             }
+
+         }
      }
-}
+     }
