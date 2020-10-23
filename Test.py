@@ -17,7 +17,7 @@ class BasicTestCase(unittest.TestCase):
     def test_1_login(self):
         req = {
             "Username": "Mo",
-            "Password": "Test",
+            "Password": "Test1234",
         }
 
         rv = self.app.post('/login', json=req)
