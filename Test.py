@@ -29,20 +29,21 @@ class BasicTestCase(unittest.TestCase):
         req = {
             "Username": "Mo"
         }
-
         rv = self.app.post('/delete', json=req)
         data = json.loads(rv.data)
         assert data['Result'] == True
 
     def test_3_update(self):
         req = {
-            "BlogName": "QATesting",
-            "New_BlogDate": date.today().strftime("%B %d, %Y"),
-            "New_BlogTime": datetime.now(),
-            "New_BlogContent": "blogBody",
-            "New_BlogLocation": "location"
+            "Username": "Mo",
+            "FirstName": "Mohammed",
+            "LastName": "Rahman",
+            "City": "Staten Island",
+            "Country": "USA",
+            "Password": "12312ggfgd",
+            "Email" : "test@test.com",
         }
-        rv = self.app.post('/update', json=req)
+        rv = self.app.post('/update-user-info', json=req)
         data = json.loads(rv.data)
         assert data['Result'] == True
 
