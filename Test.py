@@ -25,15 +25,9 @@ class BasicTestCase(unittest.TestCase):
         assert data['Result'] == True
 
    
-    def test_2_Delete(self):
-        req = {
-            "Username": "Mo"
-        }
-        rv = self.app.post('/delete', json=req)
-        data = json.loads(rv.data)
-        assert data['Result'] == True
 
-    def test_3_update(self):
+
+    def test_2_update(self):
         req = {
             "Username": "Mo",
             "FirstName": "Mohammed",
@@ -41,9 +35,17 @@ class BasicTestCase(unittest.TestCase):
             "City": "Staten Island",
             "Country": "USA",
             "Password": "12312ggfgd",
-            "Email" : "test@test.com",
+            "Email" : "test@test.com"
         }
         rv = self.app.post('/update-user-info', json=req)
+        data = json.loads(rv.data)
+        assert data['Result'] == True
+        
+    def test_3_Delete(self):
+        req = {
+            "Username": "Mo"
+        }
+        rv = self.app.post('/delete', json=req)
         data = json.loads(rv.data)
         assert data['Result'] == True
 
