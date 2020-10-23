@@ -337,6 +337,3 @@ class Users:
                 "Description": "USER password was not updated. No such user"
             }
 
-if __name__ == "__main__":
-    # u = Users()
-    # u.update_user_info(user="hrgutou", currentcity=None, currentcountry="asdf", firstname=None,  lastname=None)
