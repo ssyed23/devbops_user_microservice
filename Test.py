@@ -61,6 +61,17 @@ class BasicTestCase(unittest.TestCase):
         rv = self.app.post('/delete', json=req)
         data = json.loads(rv.data)
         assert data['Result'] == True
+        
+        
+
+
+if __name__ == '__main__':
+    unittest.main()
+    
+exit()
+
+        
+
 
     # def test_5_NONEXIST_udpate(self):
     #     req = {
@@ -124,5 +135,3 @@ class BasicTestCase(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    unittest.main()
