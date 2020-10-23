@@ -336,3 +336,5 @@ class Users:
                 "Error": "DB Error",
                 "Description": "USER password was not updated. No such user"
             }
+
+
