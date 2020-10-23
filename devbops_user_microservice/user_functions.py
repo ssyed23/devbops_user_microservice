@@ -13,8 +13,8 @@ class Users:
         # connecting to the dynamdo db 
 
         self.__Tablename__ = "user_devbops"
-        self.client = boto3.client('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
-        self.DB = boto3.resource('dynamodb',region_name='us-east-1',aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
+        self.client = boto3.client('dynamodb')
+        self.DB = boto3.resource('dynamodb')
 
         self.__Tablename__ = "DevBops_user"
         self.client = boto3.client('dynamodb')
