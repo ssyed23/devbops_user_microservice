@@ -336,10 +336,3 @@ class Users:
                 "Error": "DB Error",
                 "Description": "USER password was not updated. No such user"
             }
-<<<<<<< HEAD
-=======
-
-if __name__ == "__main__":
-    # u = Users()
-    # u.update_user_info(user="hrgutou", currentcity=None, currentcountry="asdf", firstname=None,  lastname=None)
->>>>>>> a822912b4040a0516fa2d30441824ca0030251ae
