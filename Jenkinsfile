@@ -10,6 +10,7 @@ pipeline {
                          sh 'pip install flask --user'
                          sh 'pip install boto3 --user'
                          sh 'pip install requests --user'
+                         sh 'pip install bcrypt --user'
 
                      }
                  }
