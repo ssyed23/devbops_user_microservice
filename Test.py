@@ -13,8 +13,22 @@ class BasicTestCase(unittest.TestCase):
         app.config['DEBUG'] = False
         self.app = app.test_client()
         self.assertEqual(app.debug, False)
+        
+    def test_1_create(self):
+        req = {
+            "Username": "Mo",
+            "Password": "Test1234",
+            "Email" : "test@test.com",
+            "FirstName": "Mohammed",
+            "LastName": "Rahman",
+            "City": "Staten Island",
+            "Country": "USA"
+        }
+        rv = self.app.post('/register', json=req)
+        data = json.loads(rv.data)
+        assert data['Result'] == True
 
-    def test_1_login(self):
+    def test_2_login(self):
         req = {
             "Username": "Mo",
             "Password": "Test1234",
@@ -25,13 +39,11 @@ class BasicTestCase(unittest.TestCase):
         assert data['Result'] == True
 
    
-
-
-    def test_2_update(self):
+    def test_3_update(self):
         req = {
             "Username": "Mo",
             "FirstName": "Mohammed",
-            "LastName": "Rahman",
+            "LastName": "Updated",
             "City": "Staten Island",
             "Country": "USA",
             "Password": "12312ggfgd",
@@ -41,7 +53,8 @@ class BasicTestCase(unittest.TestCase):
         data = json.loads(rv.data)
         assert data['Result'] == True
         
-    def test_3_Delete(self):
+        
+    def test_4_Delete(self):
         req = {
             "Username": "Mo"
         }
