@@ -37,7 +37,6 @@ def login():
     username = res["Username"]
     password = res["Password"]
     r = user.authincate_user(user=username, password=password)
-    # return dict{}
     return r
 
 

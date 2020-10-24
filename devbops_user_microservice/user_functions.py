@@ -12,9 +12,9 @@ class Users:
     def __init__(self):
         # connecting to the dynamdo db 
 
-        self.__Tablename__ = "user_devbops"
-        self.client = boto3.client('dynamodb')
-        self.DB = boto3.resource('dynamodb')
+        # self.__Tablename__ = "user_devbops"
+        # self.client = boto3.client('dynamodb')
+        # self.DB = boto3.resource('dynamodb')
 
         self.__Tablename__ = "DevBops_user"
         self.client = boto3.client('dynamodb')
