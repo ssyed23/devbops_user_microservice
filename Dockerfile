@@ -2,7 +2,8 @@ FROM debian:latest
 
 MAINTAINER Dolma and Sumaiyah
 
-RUN apt-get update && apt-get install -y apache2 \
+RUN apt-get update 
+RUN apt-get install -y apache2 \
     libapache2-mod-wsgi-py3 \
     build-essential \
     python3 \
